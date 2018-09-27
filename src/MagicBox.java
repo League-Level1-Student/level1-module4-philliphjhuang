@@ -11,11 +11,14 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import javazoom.jl.decoder.JavaLayerException;
 
 public class MagicBox extends JPanel implements Runnable, MouseListener {
 
@@ -30,8 +33,9 @@ public class MagicBox extends JPanel implements Runnable, MouseListener {
 	 * 3. backgroundImage.getRGB(keyEvent.getX(), keyEvent.getY()) will give you the color of the current pixel.
 	 */
 
+	JFrame frame;
 	BufferedImage backgroundImage;
-
+MediaPalace mp = new MediaPalace();
 	public static void main(String[] args) throws Exception {
 		SwingUtilities.invokeLater(new MagicBox());
 	
@@ -41,6 +45,7 @@ public class MagicBox extends JPanel implements Runnable, MouseListener {
 
 	@Override
 	public void run() {
+	
 		try {
 			loadBackgroundImage();
 			createUI();
@@ -50,12 +55,13 @@ public class MagicBox extends JPanel implements Runnable, MouseListener {
 	}
 
 	private void createUI() {
-		JFrame frame = new JFrame("The Magic Box contains many secrets...");
+		frame = new JFrame("The Magic Box contains many secrets...");
 		frame.add(this);
 		setPreferredSize(new Dimension(backgroundImage.getWidth(), backgroundImage.getHeight()));
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		frame.addMouseListener(this);
 	}
 
 	private void loadBackgroundImage() throws Exception {
@@ -81,6 +87,24 @@ public class MagicBox extends JPanel implements Runnable, MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+		System.out.println(e.getX()+" "+e.getY());
+		if( (e.getX()>=194) && (e.getX()<=201) && (e.getY()>=542) && e.getY()<=550) {
+			try {
+				frame.add(mp.loadImageFromTheInternet("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg"));
+			frame.pack();
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} else if((e.getX()>=184) && (e.getX()<=190) && (e.getY()>=865) && (e.getY()<=871)) {
+			try {
+				mp.playMp3FromComputer("demacia.mp3");
+			} catch (JavaLayerException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}	
+		}
 		
 	}
 
