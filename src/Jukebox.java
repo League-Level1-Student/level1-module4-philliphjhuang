@@ -33,7 +33,7 @@ public class Jukebox implements Runnable, MouseListener {
 	   JPanel panel = new JPanel();
 	   JButton button = new JButton();
 	   JButton button1 = new JButton();
-	   Song y  = new Song("demacia.wav");
+	   Song y  = new Song("demacia.mp3");
 	   Song x = new Song("CLOS.wav");
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Jukebox());
